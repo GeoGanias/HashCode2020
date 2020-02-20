@@ -30,7 +30,12 @@ void Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime){
 	quickSort(scoresCopy,0,BookCounter-1,books);
 
     int sentBooks = min(BookCounter,ScannableBooks*leftTime);
-    cout << sentBooks  << endl;
+    if(sentBooks < 0 ){
+        cout << 0  << endl;
+
+    }else {
+        cout << sentBooks  << endl;
+    }
     for(int i=0;i<sentBooks;i++){
         cout << books[i] << " ";
         CheckedBooks[books[i]] = true;

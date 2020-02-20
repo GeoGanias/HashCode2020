@@ -6,7 +6,7 @@ using namespace std;
 int selectLibrary(Library**,int *,int, int,bool *);
 
 int main(void) {
-    ifstream infile("./input/a_example.txt");
+    ifstream infile("./input/c_incunabula.txt");
     if(!infile.is_open()) {
         cout << "file error\n";
         return -1;
@@ -49,6 +49,9 @@ int main(void) {
 
     cout << L << endl;
     for(i=0; i<L ; i++){
+        if(D < 0) {
+            break;
+        }
         int x = selectLibrary(libraries, scores, D, L,CheckedBooks);
         libraries[x]->setSigned();
         cout << x << " " ;

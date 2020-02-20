@@ -12,7 +12,11 @@ int selectLibrary(Library **libraries,int *scores,int time, int L,bool *CheckedB
     for(int i=0; i<L; i++){
         if(libraries[i]->isSigned())
             continue;
-
+        if(best == -1) {
+            best = findcost(libraries[i],scores,time,CheckedBooks);
+            max = i;
+            continue;
+        }
         double cost = findcost(libraries[i],scores,time,CheckedBooks);
         if(cost > max){
             max = cost;
