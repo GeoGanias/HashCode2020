@@ -5,22 +5,31 @@
 using namespace std;
 
 int main(void) {
-  ifstream infile("./input/b_small.in");
+  ifstream infile("./input/a_example.txt");
   if(!infile.is_open()) {
     printf("file error\n");
     return -1;
   }
-  int M,N;
-  infile >> M >> N;
+  int B,L,D;
+  infile >> B >> L >> D;
 
-  int *arr = new int[N];
+  int *scores = new int[B];
   int i;
-  for(i=0;i<N;i++) {
-    infile >> arr[i];
+  for(i=0;i<B;i++) {
+    infile >> scores[i];
   }
+
+  for(i=0;i<L;i++) {
+    int N,T,M;
+    infile >> N >> T >> M;
+
+    for(j=0;j<N;j++) {
+      // infile >> 
+    }
+  }
+
   infile.close();
 
-
-  delete[] arr;
+  delete[] scores;
   return 0;
 }
