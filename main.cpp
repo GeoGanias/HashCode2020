@@ -3,7 +3,7 @@
 #include "Interface.hpp"
 using namespace std;
 
-int selectLibrary(Library**,int *,int, int);
+int selectLibrary(Library**,int *,int, int,bool *);
 
 int main(void) {
     ifstream infile("./input/a_example.txt");
@@ -49,13 +49,13 @@ int main(void) {
 
     cout << L << endl;
     for(i=0; i<L ; i++){
-        int x = selectLibrary(libraries, scores, D, L);
+        int x = selectLibrary(libraries, scores, D, L,CheckedBooks);
         libraries[x]->setSigned();
-        cout << x << " " << libraries[x]->get_bookCounter() << endl;
+        cout << x << " " ;
         //Library Selected
-        
-        libraries[x]->SelectBooks(CheckedBooks,scores);
-        
+        D -= libraries[x]->get_SignUpTime();
+        libraries[x]->SelectBooks(CheckedBooks,scores,D);
+
 
     }
 
