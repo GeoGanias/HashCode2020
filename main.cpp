@@ -1,8 +1,9 @@
 #include <iostream>
 #include <fstream>
-#include <cmath>
-
+#include "Interface.hpp"
 using namespace std;
+
+int selectLibrary(Library**,int *,int);
 
 int main(void) {
   ifstream infile("./input/a_example.txt");
@@ -19,16 +20,31 @@ int main(void) {
     infile >> scores[i];
   }
 
+    Library **libraries = new Library*[L];
   for(i=0;i<L;i++) {
     int N,T,M;
     infile >> N >> T >> M;
-
+    libraries[i] = new Library(N,T,M);
+    int j;
     for(j=0;j<N;j++) {
-      // infile >> 
+      int book_id;
+      infile >> book_id;
+      libraries[i]->InsertBook(book_id);
     }
   }
-
   infile.close();
+
+
+  for(i=0;i<L;i++) {
+    int j;
+    for(j=0;j<libraries[i]->get_bookCounter();j++) {
+      cout << libraries[i]->get_book(j)<< " ";
+    }
+    cout << endl;
+  }
+
+
+  selectLibrary(libraries,scores,D);
 
   delete[] scores;
   return 0;
