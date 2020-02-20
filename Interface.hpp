@@ -11,6 +11,7 @@
 class Library{
     private:
         int *books;
+        bool Signed;
         int BookCounter;
         int SignUpTime;
         int ScannableBooks; //per day
@@ -23,4 +24,5 @@ class Library{
         int get_SignUpTime();
         int get_ScannableBooks();
         int get_book(int);
+        bool isSigned();
 };

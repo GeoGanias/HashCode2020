@@ -5,6 +5,7 @@
 
 Library::Library(int BookNum,int sTime, int maxBooks):SignUpTime(sTime),ScannableBooks(maxBooks){
     BookCounter = 0;
+    Signed = false;
     books = new int[BookNum];
 }
 
@@ -20,12 +21,15 @@ int Library::get_SignUpTime(){
 
 int Library::get_Score(int *scores){
     int sum = 0;
-    for (size_t i = 0; i < BookCounter; i++) {
+    for (int i = 0; i < BookCounter; i++) {
       sum += scores[books[i]];
     }
     return sum;
 }
 
+bool Library::isSigned(){
+    return Signed;
+}
 
 int Library::get_bookCounter(){
     return BookCounter;
