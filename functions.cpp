@@ -7,7 +7,6 @@ using namespace std;
 double findcost(Library*,int *,int);
 
 int selectLibrary(Library **libraries,int *scores,int time, int L) {
-    cout << "Called \n";
     double max = -1;
     int best = -1;
     for(int i=0; i<L; i++){
@@ -26,3 +25,4 @@ int selectLibrary(Library **libraries,int *scores,int time, int L) {
 double findcost(Library *library,int *scores,int time) {
     return ((double) library->get_Score(scores)/(time-library->get_SignUpTime())) * ((double) library->get_bookCounter()/library->get_ScannableBooks());
 }
+

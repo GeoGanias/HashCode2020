@@ -19,10 +19,12 @@ class Library{
         Library(int,int,int);
         ~Library();
         void InsertBook(int);
+        void SelectBooks(bool*,int*);
         int get_Score(int *);
         int get_bookCounter();
         int get_SignUpTime();
         int get_ScannableBooks();
         int get_book(int);
         bool isSigned();
+        void setSigned();
 };

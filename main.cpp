@@ -15,9 +15,12 @@ int main(void) {
     infile >> B >> L >> D;
 
     int *scores = new int[B];
+    bool *CheckedBooks = new bool[B];
+
     int i;
     for(i=0;i<B;i++) {
         infile >> scores[i];
+        CheckedBooks[i] = false;
     }
 
     Library **libraries = new Library*[L];
@@ -34,7 +37,7 @@ int main(void) {
     }
     infile.close();
 
-
+/*
     for(i=0;i<L;i++) {
         int j;
         for(j=0;j<libraries[i]->get_bookCounter();j++) {
@@ -42,13 +45,17 @@ int main(void) {
         }
         cout << endl;
     }
+*/
 
-
+    cout << L << endl;
     for(i=0; i<L ; i++){
-        cout << "iter\n";
-        int x;
-        x = selectLibrary(libraries, scores, D, L);
-        cout << x;
+        int x = selectLibrary(libraries, scores, D, L);
+        libraries[x]->setSigned();
+        cout << x << " " << libraries[x]->get_bookCounter() << endl;
+        //Library Selected
+        
+        libraries[x]->SelectBooks(CheckedBooks,scores);
+        
 
     }
 
