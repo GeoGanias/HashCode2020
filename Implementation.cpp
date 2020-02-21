@@ -19,13 +19,12 @@ void Library::InsertBook(int bookId){
     books[BookCounter] = bookId;
     BookCounter++;
 }
-
-
-bool Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime,ofstream &outputFile){
+int Library::findBestScore(bool* CheckedBooks,int *scores,int leftTime){
+    leftTime -= SignUpTime;
 	int *scoresCopy = new int[BookCounter];
 	for(int i=0;i<BookCounter;i++) {
         if(!CheckedBooks[i]) {
-            scoresCopy[i] = scores[i];
+            scoresCopy[i] = scores[books[i]];
         }
         else {
             scoresCopy[i] = 0;
@@ -37,14 +36,53 @@ bool Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime,ofstream &
     int sentBooks = min(BookCounter,ScannableBooks*leftTime);
     delete[] scoresCopy;
     if(sentBooks <= 0 ){
+        return 0;
+    }
+    int score = 0;
+    for(int i=1;i<=sentBooks;i++){
+        if(!CheckedBooks[books[BookCounter-i]]) {
+            score += scores[books[BookCounter-i]];
+        }
+    }
+    return score;
+}
+
+
+bool Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime,ofstream &outputFile,int *scoreSum){
+	int *scoresCopy = new int[BookCounter];
+	for(int i=0;i<BookCounter;i++) {
+        if(!CheckedBooks[i]) {
+            scoresCopy[i] = scores[books[i]];
+        }
+        else {
+            scoresCopy[i] = 0;
+        }
+    }
+
+    // cout << "books: ";
+    // printArray(books,BookCounter);
+    // cout << "soces: ";
+    // printArray(scoresCopy,BookCounter);
+	quickSort(scoresCopy,0,BookCounter-1,books);
+    // cout << "books: ";
+    // printArray(books,BookCounter);
+    // cout << "soces: ";
+    // printArray(scoresCopy,BookCounter);
+    // cout << endl;
+    int sentBooks = min(BookCounter,ScannableBooks*leftTime);
+    delete[] scoresCopy;
+    if(sentBooks <= 0 ){
         // outputFile << 0  << endl;
         return false;
     }else {
         outputFile << sentBooks  << endl;
     }
-    for(int i=0;i<sentBooks;i++){
-        outputFile << books[i] << " ";
-        CheckedBooks[books[i]] = true;
+    for(int i=1;i<=sentBooks;i++){
+        outputFile << books[BookCounter-i] << " ";
+        if(!CheckedBooks[books[BookCounter-i]]) {
+            (*scoreSum) += scores[books[BookCounter-i]];
+            CheckedBooks[books[BookCounter-i]] = true;
+        }
     }
     outputFile << "\n";
     return true;

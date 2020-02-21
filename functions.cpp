@@ -14,10 +14,13 @@ int selectLibrary(Library **libraries,int *scores,int time, int L,bool *CheckedB
             continue;
         if(best == -1) {
             best = i;
-            max = findcost(libraries[i],scores,time,CheckedBooks);
+            max = (2.0*libraries[i]->findBestScore(CheckedBooks,scores,time))/((double)libraries[i]->get_SignUpTime());
+            // max = findcost(libraries[i],scores,time,CheckedBooks);
             continue;
         }
-        double cost = findcost(libraries[i],scores,time,CheckedBooks);
+        double cost = (2.0*libraries[i]->findBestScore(CheckedBooks,scores,time))/((double)libraries[i]->get_SignUpTime());
+
+        // double cost = findcost(libraries[i],scores,time,CheckedBooks);
         if(cost > max){
             max = cost;
             best = i;

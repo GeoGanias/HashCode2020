@@ -21,7 +21,7 @@ class Library{
         Library(int,int,int);
         ~Library();
         void InsertBook(int);
-        bool SelectBooks(bool*,int*,int,std::ofstream&);
+        bool SelectBooks(bool*,int*,int,std::ofstream&,int *);
         int get_Score(int *,bool *);
         int get_bookCounter();
         int get_SignUpTime();
@@ -29,5 +29,5 @@ class Library{
         int get_book(int);
         bool isSigned();
         void setSigned();
-        // void deleteBooks();
+        int findBestScore(bool *,int *,int);
 };
