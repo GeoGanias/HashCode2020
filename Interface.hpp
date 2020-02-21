@@ -1,3 +1,5 @@
+#include <fstream>
+
 /*class Book{
     private:
         int BookID;
@@ -19,7 +21,7 @@ class Library{
         Library(int,int,int);
         ~Library();
         void InsertBook(int);
-        void SelectBooks(bool*,int*,int);
+        bool SelectBooks(bool*,int*,int,std::ofstream&);
         int get_Score(int *,bool *);
         int get_bookCounter();
         int get_SignUpTime();
@@ -27,4 +29,5 @@ class Library{
         int get_book(int);
         bool isSigned();
         void setSigned();
+        // void deleteBooks();
 };

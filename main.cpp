@@ -1,12 +1,20 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "Interface.hpp"
+
 using namespace std;
 
 int selectLibrary(Library**,int *,int, int,bool *);
 
-int main(void) {
-    ifstream infile("./input/c_incunabula.txt");
+int main(int argc,char **argv) {
+    ifstream infile;
+    if(argc == 2) {
+        infile.open(argv[1]);
+    }
+    else {
+        infile.open("./input/a_example.txt");
+    }
     if(!infile.is_open()) {
         cout << "file error\n";
         return -1;
@@ -38,6 +46,7 @@ int main(void) {
     infile.close();
 
 /*
+    // print books
     for(i=0;i<L;i++) {
         int j;
         for(j=0;j<libraries[i]->get_bookCounter();j++) {
@@ -46,22 +55,40 @@ int main(void) {
         cout << endl;
     }
 */
-
-    cout << L << endl;
+    /* create a temp file and keep the books*/
+    ofstream outputFile("outputTmpFile");
     for(i=0; i<L ; i++){
-        if(D < 0) {
+        if(D <= 0) {
             break;
         }
         int x = selectLibrary(libraries, scores, D, L,CheckedBooks);
+        outputFile << x << " ";
         libraries[x]->setSigned();
-        cout << x << " " ;
         //Library Selected
         D -= libraries[x]->get_SignUpTime();
-        libraries[x]->SelectBooks(CheckedBooks,scores,D);
-
+        if(!libraries[x]->SelectBooks(CheckedBooks,scores,D,outputFile)) {
+            break;
+        }
 
     }
-
+    outputFile.close();
+    /* print file to cout and add the number of libraries used */
+    std::ifstream f("outputTmpFile");
+    cout << i << endl;
+    string line;
+    for(int j=0;j<i;j++) {
+        getline(f, line);
+        cout << line << endl;
+        getline(f, line);
+        cout << line << endl;
+    }
+    f.close();
+    remove("outputTmpFile"); //delete the tmp file
     delete[] scores;
+    delete[] CheckedBooks;
+    for(i=0;i<L;i++) {
+        delete libraries[i];
+    }
+    delete[] libraries;
     return 0;
 }

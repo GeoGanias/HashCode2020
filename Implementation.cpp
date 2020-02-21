@@ -11,12 +11,17 @@ Library::Library(int BookNum,int sTime, int maxBooks):SignUpTime(sTime),Scannabl
     books = new int[BookNum];
 }
 
+Library::~Library(){
+    delete[] books;
+}
+
 void Library::InsertBook(int bookId){
     books[BookCounter] = bookId;
     BookCounter++;
 }
 
-void Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime){
+
+bool Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime,ofstream &outputFile){
 	int *scoresCopy = new int[BookCounter];
 	for(int i=0;i<BookCounter;i++) {
         if(!CheckedBooks[i]) {
@@ -30,18 +35,19 @@ void Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime){
 	quickSort(scoresCopy,0,BookCounter-1,books);
 
     int sentBooks = min(BookCounter,ScannableBooks*leftTime);
-    if(sentBooks < 0 ){
-        cout << 0  << endl;
-
+    delete[] scoresCopy;
+    if(sentBooks <= 0 ){
+        // outputFile << 0  << endl;
+        return false;
     }else {
-        cout << sentBooks  << endl;
+        outputFile << sentBooks  << endl;
     }
     for(int i=0;i<sentBooks;i++){
-        cout << books[i] << " ";
+        outputFile << books[i] << " ";
         CheckedBooks[books[i]] = true;
     }
-    cout << "\n";
-
+    outputFile << "\n";
+    return true;
 }
 
 int Library::get_SignUpTime(){
