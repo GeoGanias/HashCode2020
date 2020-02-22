@@ -5,7 +5,7 @@ make
 sum=0
 for file in $FILES
 do
-    outfile=output2/$(basename $file)
+    outfile=output/$(basename $file)
     echo $outfile
     x=$(./executable $file $outfile)
     echo $x

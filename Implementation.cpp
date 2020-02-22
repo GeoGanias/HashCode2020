@@ -23,7 +23,7 @@ int Library::findBestScore(bool* CheckedBooks,int *scores,int leftTime){
     leftTime -= SignUpTime;
 	int *scoresCopy = new int[BookCounter];
 	for(int i=0;i<BookCounter;i++) {
-        if(!CheckedBooks[i]) {
+        if(!CheckedBooks[books[i]]) {
             scoresCopy[i] = scores[books[i]];
         }
         else {
@@ -51,10 +51,11 @@ int Library::findBestScore(bool* CheckedBooks,int *scores,int leftTime){
 bool Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime,ofstream &outputFile,int *scoreSum){
 	int *scoresCopy = new int[BookCounter];
 	for(int i=0;i<BookCounter;i++) {
-        if(!CheckedBooks[i]) {
+        if(!CheckedBooks[books[i]]) {
             scoresCopy[i] = scores[books[i]];
         }
         else {
+            // cout << "booked checked " << books[i] <<endl;
             scoresCopy[i] = 0;
         }
     }
@@ -63,25 +64,32 @@ bool Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime,ofstream &
     // printArray(books,BookCounter);
     // cout << "soces: ";
     // printArray(scoresCopy,BookCounter);
-	quickSort(scoresCopy,0,BookCounter-1,books);
+	// quickSort(scoresCopy,0,BookCounter-1,books);
     // cout << "books: ";
     // printArray(books,BookCounter);
     // cout << "soces: ";
     // printArray(scoresCopy,BookCounter);
     // cout << endl;
-    int sentBooks = min(BookCounter,ScannableBooks*leftTime);
+    uint maxBooks = (uint)(ScannableBooks*leftTime);
+    uint sentBooks;
+    if((uint)BookCounter < maxBooks) {
+        sentBooks = BookCounter;
+    }
+    else {
+        sentBooks = maxBooks;
+    }
     delete[] scoresCopy;
     if(sentBooks <= 0 ){
-        // outputFile << 0  << endl;
         return false;
     }else {
         outputFile << sentBooks  << endl;
     }
-    for(int i=1;i<=sentBooks;i++){
+    for(uint i=1;i<=sentBooks;i++){
         outputFile << books[BookCounter-i] << " ";
         if(!CheckedBooks[books[BookCounter-i]]) {
             (*scoreSum) += scores[books[BookCounter-i]];
             CheckedBooks[books[BookCounter-i]] = true;
+            // cout << "checked " << books[BookCounter-i] <<endl;
         }
     }
     outputFile << "\n";
@@ -96,7 +104,7 @@ int Library::get_SignUpTime(){
 int Library::get_Score(int *scores,bool *CheckedBooks) {
     int sum = 0;
     for (int i = 0; i < BookCounter; i++) {
-        if(!CheckedBooks[i]) {
+        if(!CheckedBooks[books[i]]) {
             sum += scores[books[i]];
         }
     }

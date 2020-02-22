@@ -9,7 +9,7 @@ int selectLibrary(Library**,int *,int, int,bool *);
 
 int main(int argc,char **argv) {
     ifstream infile;
-    if(argc > 2) {
+    if(argc > 1) {
         infile.open(argv[1]);
     }
     else {
@@ -64,6 +64,7 @@ int main(int argc,char **argv) {
         }
         int x = selectLibrary(libraries, scores, D, L,CheckedBooks);
         outputFile << x << " ";
+        // cout << x <<endl;
         libraries[x]->setSigned();
         //Library Selected
         D -= libraries[x]->get_SignUpTime();
