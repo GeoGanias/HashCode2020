@@ -10,6 +10,55 @@ void swap(int* a, int* b)
     *b = t;
 }
 
+
+void swift0(int *arr,int *scoreSum, int n) {
+    int count = n-1;  // Count of non-zero elements
+
+    // Traverse the array. If element encountered is non-
+    // zero, then replace the element at index 'count'
+    // with this element
+    for (int i = n-1; i >= 0; i--) {
+        if (scoreSum[i] != 0) {
+            scoreSum[count] = scoreSum[i]; // here count is
+            swap(arr[count],arr[i]);
+            count--;
+        }
+    }
+    // Now all non-zero elements have been shifted to
+    // front and  'count' is set as index of first 0.
+    // Make all elements 0 from count to end.
+    while (count >= 0)
+        scoreSum[count--] = 0;
+}
+
+
+void pushZerosToEnd(int *arr,int *scoresCopy,int N) {
+    int mv = 0;
+    int i;
+    for(i=1;i<=N;i++) {
+        if(scoresCopy[N-i] == 0) {
+            mv++;
+        }
+        if(N-i-mv >= 0) {
+            // int tmp = arr[N-i];
+            // arr[N-i] = arr[N-i-mv];
+            swap(arr[N-i],arr[N-i-mv]);
+            scoresCopy[N-i] = scoresCopy[N-i-mv];
+
+            // arr[N-i-mv] = tmp;
+            // swap(scoresCopy[N-i],scoresCopy[N-i-mv]);
+
+        }
+        else {
+            // arr[N-i] = -10;
+            scoresCopy[N-i] = 0;
+
+        }
+        printArray(arr,N);
+        printArray(scoresCopy,N);
+        cout <<endl;
+    }
+}
 /* This function takes last element as pivot, places
 the pivot element at its correct position in sorted
 array, and places all smaller (smaller than pivot)
@@ -62,3 +111,16 @@ void printArray(int arr[], int size)
         cout << arr[i] << " ";
     cout << endl;
 }
+
+//
+// int main(void) {
+//     int arr[6] = {1,2,3,4,5,6};
+//     int scores[6] = {0,1,0,3,0,0};
+//
+//     printArray(arr,6);
+//     printArray(scores,6);
+//     cout <<endl;
+//     pushZerosToEnd(arr,scores,6);
+//     printArray(arr,6);
+//     printArray(scores,6);
+// }

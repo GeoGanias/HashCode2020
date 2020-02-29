@@ -30,4 +30,8 @@ class Library{
         bool isSigned();
         void setSigned();
         int findBestScore(bool *,int *,int);
+        void orderedBooks(int *);
+        void printBooks(int *);
+        void sortBook(int *);
+
 };

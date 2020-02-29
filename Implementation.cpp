@@ -31,22 +31,35 @@ int Library::findBestScore(bool* CheckedBooks,int *scores,int leftTime){
         }
     }
 
-	quickSort(scoresCopy,0,BookCounter-1,books);
-
+	// quickSort(scoresCopy,0,BookCounter-1,books);
+    swift0(books,scoresCopy,BookCounter);
     int sentBooks = min(BookCounter,ScannableBooks*leftTime);
     delete[] scoresCopy;
     if(sentBooks <= 0 ){
         return 0;
     }
     int score = 0;
-    for(int i=1;i<=sentBooks;i++){
+    int i;
+    for(i=1;i<=sentBooks;i++){
         if(!CheckedBooks[books[BookCounter-i]]) {
             score += scores[books[BookCounter-i]];
+        }
+        else {
+            break;
         }
     }
     return score;
 }
 
+
+void Library::sortBook(int *scores) {
+    int *scoresCopy = new int[BookCounter];
+    for(int i=0;i<BookCounter;i++) {
+            scoresCopy[i] = scores[books[i]];
+    }
+    quickSort(scoresCopy,0,BookCounter-1,books);
+    delete[] scoresCopy;
+}
 
 bool Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime,ofstream &outputFile,int *scoreSum){
 	int *scoresCopy = new int[BookCounter];
@@ -89,6 +102,7 @@ bool Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime,ofstream &
         if(!CheckedBooks[books[BookCounter-i]]) {
             (*scoreSum) += scores[books[BookCounter-i]];
             CheckedBooks[books[BookCounter-i]] = true;
+            scores[books[BookCounter-i]] = 0;
             // cout << "checked " << books[BookCounter-i] <<endl;
         }
     }
@@ -98,6 +112,31 @@ bool Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime,ofstream &
 
 int Library::get_SignUpTime(){
     return SignUpTime;
+}
+
+
+void Library::orderedBooks(int *scores){
+    int i;
+    for(i=1;i<BookCounter;i++) {
+        if(scores[books[i-1]] > scores[books[i]]) {
+            cout << "books not ordered\n";
+            return;
+        }
+    }
+    // cout << "books are ordered\n";
+}
+
+
+void Library::printBooks(int *scores){
+    int i;
+    // for(i=0;i<BookCounter;i++) {
+    //     cout << books[i] << " ";
+    // }
+    cout << endl;
+    for(i=0;i<BookCounter;i++) {
+        cout << scores[books[i]] << " ";
+    }
+    cout << endl;
 }
 
 

@@ -6,20 +6,34 @@ using namespace std;
 
 double findcost(Library*,int *,int,bool *);
 // int minSignUp(Library **,int ,int );
+int sumArr(int *arr,int N) {
+    int sum = 0;
+    for(int i=0;i<N;i++) {
+        sum+=arr[i];
+    }
+    return sum;
+}
 
-int selectLibrary(Library **libraries,int *scores,int time, int L,bool *CheckedBooks) {
+int selectLibrary(Library **libraries,int *scores,int time, int L,bool *CheckedBooks,int B) {
     double max = -1;
     int best = -1;
+    int bestSum = sumArr(scores,B);
     for(int i=0; i<L; i++){
         if(libraries[i]->isSigned())
             continue;
         if(best == -1) {
             best = i;
-            max = ((double)libraries[i]->findBestScore(CheckedBooks,scores,time))/((double) libraries[i]->get_SignUpTime());
+            double perScore = ((double)libraries[i]->findBestScore(CheckedBooks,scores,time) / bestSum)*100.0;
+            double perDays = ((double)libraries[i]->get_SignUpTime()/time);
+            max = perScore / perDays;
+            // max = ((double)libraries[i]->findBestScore(CheckedBooks,scores,time))/((double) libraries[i]->get_SignUpTime());
             //max = findcost(libraries[i],scores,time,CheckedBooks);
             continue;
         }
-        double cost = ((double)libraries[i]->findBestScore(CheckedBooks,scores,time))/((double) libraries[i]->get_SignUpTime());
+        double perScore = ((double)libraries[i]->findBestScore(CheckedBooks,scores,time) / bestSum)*100.0;
+        double perDays = ((double)libraries[i]->get_SignUpTime()/time);
+        double cost = perScore / perDays;
+        // double cost = ((double)libraries[i]->findBestScore(CheckedBooks,scores,time))/((double) libraries[i]->get_SignUpTime());
 
         //double cost = findcost(libraries[i],scores,time,CheckedBooks);
         if(cost > max){

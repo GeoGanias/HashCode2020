@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int selectLibrary(Library**,int *,int, int,bool *);
+int selectLibrary(Library**,int *,int, int,bool *,int);
 
 int main(int argc,char **argv) {
     ifstream infile;
@@ -42,8 +42,10 @@ int main(int argc,char **argv) {
             infile >> book_id;
             libraries[i]->InsertBook(book_id);
         }
+        libraries[i]->sortBook(scores);
     }
     infile.close();
+
 
 /*
     // print books
@@ -62,10 +64,12 @@ int main(int argc,char **argv) {
         if(D <= 0) {
             break;
         }
-        int x = selectLibrary(libraries, scores, D, L,CheckedBooks);
+        int x = selectLibrary(libraries, scores, D, L,CheckedBooks,B);
         outputFile << x << " ";
         // cout << x <<endl;
         libraries[x]->setSigned();
+        libraries[x]->orderedBooks(scores);
+        // libraries[x]->printBooks(scores);
         //Library Selected
         D -= libraries[x]->get_SignUpTime();
         if(!libraries[x]->SelectBooks(CheckedBooks,scores,D,outputFile,&scoreSum)) {
