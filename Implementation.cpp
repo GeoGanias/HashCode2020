@@ -48,7 +48,7 @@ int Library::findBestScore(bool* CheckedBooks,int *scores,int leftTime){
             break;
         }
     }
-    return score;
+    return score-(2*i);
 }
 
 
@@ -62,17 +62,17 @@ void Library::sortBook(int *scores) {
 }
 
 bool Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime,ofstream &outputFile,int *scoreSum){
-	int *scoresCopy = new int[BookCounter];
-	for(int i=0;i<BookCounter;i++) {
-        if(!CheckedBooks[books[i]]) {
-            scoresCopy[i] = scores[books[i]];
-        }
-        else {
-            // cout << "booked checked " << books[i] <<endl;
-            scoresCopy[i] = 0;
-        }
-    }
-
+	// int *scoresCopy = new int[BookCounter];
+	// for(int i=0;i<BookCounter;i++) {
+    //     if(!CheckedBooks[books[i]]) {
+    //         scoresCopy[i] = scores[books[i]];
+    //     }
+    //     else {
+    //         // cout << "booked checked " << books[i] <<endl;
+    //         scoresCopy[i] = 0;
+    //     }
+    // }
+    //
     // cout << "books: ";
     // printArray(books,BookCounter);
     // cout << "soces: ";
@@ -83,21 +83,24 @@ bool Library::SelectBooks(bool* CheckedBooks,int *scores,int leftTime,ofstream &
     // cout << "soces: ";
     // printArray(scoresCopy,BookCounter);
     // cout << endl;
-    uint maxBooks = (uint)(ScannableBooks*leftTime);
-    uint sentBooks;
-    if((uint)BookCounter < maxBooks) {
-        sentBooks = BookCounter;
-    }
-    else {
-        sentBooks = maxBooks;
-    }
-    delete[] scoresCopy;
+    // int maxBooks = (ScannableBooks*leftTime);
+    // uint sentBooks;
+    // if(BookCounter / leftTime < ScannableBooks) {
+    //     sentBooks = BookCounter;
+    // }
+    // else {
+    //     sentBooks = (ScannableBooks*leftTime);
+    // }
+    int sentBooks = min(ScannableBooks*leftTime,BookCounter);
+    // delete[] scoresCopy;
     if(sentBooks <= 0 ){
+        // cout << "counter "<< BookCounter <<endl;
+        // cout << "sent " <<sentBooks <<endl;
         return false;
     }else {
         outputFile << sentBooks  << endl;
     }
-    for(uint i=1;i<=sentBooks;i++){
+    for(int i=1;i<=sentBooks;i++){
         outputFile << books[BookCounter-i] << " ";
         if(!CheckedBooks[books[BookCounter-i]]) {
             (*scoreSum) += scores[books[BookCounter-i]];

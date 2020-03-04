@@ -65,19 +65,32 @@ int main(int argc,char **argv) {
             break;
         }
         int x = selectLibrary(libraries, scores, D, L,CheckedBooks,B);
+        D -= libraries[x]->get_SignUpTime();
+
+        if(D<=0) {
+            break;
+        }
+
         outputFile << x << " ";
         // cout << x <<endl;
         libraries[x]->setSigned();
         libraries[x]->orderedBooks(scores);
         // libraries[x]->printBooks(scores);
         //Library Selected
-        D -= libraries[x]->get_SignUpTime();
         if(!libraries[x]->SelectBooks(CheckedBooks,scores,D,outputFile,&scoreSum)) {
+            // cout << D << "   error\n";
             break;
         }
 
     }
-    // cout << "score is: " << scoreSum <<endl;
+    // uint sum2 = 0;
+    // for(i=0;i<B;i++) {
+    //     if(CheckedBooks[i]) {
+    //         sum2 += scores[i];
+    //     }
+    // }
+
+    // cout << "score is: " << sum2 <<endl;
     outputFile.close();
     /* print file to cout and add the number of libraries used */
     ifstream f("outputTmpFile");
