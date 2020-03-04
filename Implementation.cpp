@@ -19,7 +19,7 @@ void Library::InsertBook(int bookId){
     books[BookCounter] = bookId;
     BookCounter++;
 }
-int Library::findBestScore(bool* CheckedBooks,int *scores,int leftTime){
+int Library::findBestScore(bool* CheckedBooks,int *scores,int leftTime,int *CommonBooks){
     leftTime -= SignUpTime;
 	int *scoresCopy = new int[BookCounter];
 	for(int i=0;i<BookCounter;i++) {
@@ -42,20 +42,20 @@ int Library::findBestScore(bool* CheckedBooks,int *scores,int leftTime){
     int i;
     for(i=1;i<=sentBooks;i++){
         if(!CheckedBooks[books[BookCounter-i]]) {
-            score += scores[books[BookCounter-i]];
+            score += scores[books[BookCounter-i]] - (CommonBooks[books[BookCounter-i]]*CommonBooks[books[BookCounter-i]]);
         }
         else {
             break;
         }
     }
-    return score-(2*i);
+    return score;
 }
 
 
-void Library::sortBook(int *scores) {
+void Library::sortBook(int *scores,int *CommonBooks) {
     int *scoresCopy = new int[BookCounter];
     for(int i=0;i<BookCounter;i++) {
-            scoresCopy[i] = scores[books[i]];
+            scoresCopy[i] = scores[books[i]]-(CommonBooks[books[i]]*CommonBooks[books[i]]);
     }
     quickSort(scoresCopy,0,BookCounter-1,books);
     delete[] scoresCopy;

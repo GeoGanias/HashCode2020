@@ -29,9 +29,9 @@ class Library{
         int get_book(int);
         bool isSigned();
         void setSigned();
-        int findBestScore(bool *,int *,int);
+        int findBestScore(bool *,int *,int,int *);
         void orderedBooks(int *);
         void printBooks(int *);
-        void sortBook(int *);
+        void sortBook(int *,int *);
 
 };

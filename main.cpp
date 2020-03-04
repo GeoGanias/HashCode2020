@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int selectLibrary(Library**,int *,int, int,bool *,int);
+int selectLibrary(Library**,int *,int, int,bool *,int,int *);
 
 int main(int argc,char **argv) {
     ifstream infile;
@@ -24,11 +24,13 @@ int main(int argc,char **argv) {
 
     int *scores = new int[B];
     bool *CheckedBooks = new bool[B];
+    int *CommonBooks = new int[B];
 
     int i;
     for(i=0;i<B;i++) {
         infile >> scores[i];
         CheckedBooks[i] = false;
+        CommonBooks[i] = 0;
     }
 
     Library **libraries = new Library*[L];
@@ -41,8 +43,9 @@ int main(int argc,char **argv) {
             int book_id;
             infile >> book_id;
             libraries[i]->InsertBook(book_id);
+            CommonBooks[book_id] += 1;
         }
-        libraries[i]->sortBook(scores);
+        libraries[i]->sortBook(scores,CommonBooks);
     }
     infile.close();
 
@@ -64,7 +67,7 @@ int main(int argc,char **argv) {
         if(D <= 0) {
             break;
         }
-        int x = selectLibrary(libraries, scores, D, L,CheckedBooks,B);
+        int x = selectLibrary(libraries, scores, D, L,CheckedBooks,B,CommonBooks);
         D -= libraries[x]->get_SignUpTime();
 
         if(D<=0) {
@@ -74,7 +77,7 @@ int main(int argc,char **argv) {
         outputFile << x << " ";
         // cout << x <<endl;
         libraries[x]->setSigned();
-        libraries[x]->orderedBooks(scores);
+        // libraries[x]->orderedBooks(scores);
         // libraries[x]->printBooks(scores);
         //Library Selected
         if(!libraries[x]->SelectBooks(CheckedBooks,scores,D,outputFile,&scoreSum)) {
@@ -115,6 +118,7 @@ int main(int argc,char **argv) {
     remove("outputTmpFile"); //delete the tmp file
     delete[] scores;
     delete[] CheckedBooks;
+    delete[] CommonBooks;
     for(i=0;i<L;i++) {
         delete libraries[i];
     }
