@@ -55,7 +55,7 @@ int Library::findBestScore(bool* CheckedBooks,int *scores,int leftTime,int *Comm
 void Library::sortBook(int *scores,int *CommonBooks) {
     int *scoresCopy = new int[BookCounter];
     for(int i=0;i<BookCounter;i++) {
-            scoresCopy[i] = scores[books[i]]-(CommonBooks[books[i]]*CommonBooks[books[i]]);
+        scoresCopy[i] = scores[books[i]]-(CommonBooks[books[i]]*CommonBooks[books[i]]);
     }
     quickSort(scoresCopy,0,BookCounter-1,books);
     delete[] scoresCopy;
