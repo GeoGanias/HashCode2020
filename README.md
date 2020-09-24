@@ -1,5 +1,5 @@
 # HASH CODE 2020 - Book Scanning
-Problem statement for the Online Quali cation Round of Hash Code 2020
+Problem statement for the Online Qualification Round of Hash Code 2020
 
 ## Introduction
 Books allow us to discover fantasy worlds and be er understand the world we live in.
